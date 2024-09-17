@@ -9,6 +9,7 @@ export default function CreateItem() {
   const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
 
+  // ④ 任意のpage.tsxで、useAuth()を実行する (必要に応じて強制routerが発動します)
   const loginUserEmail = useAuth();
 
   const handleSubmit = async (e: any) => {

@@ -11,6 +11,7 @@ export default function DeleteItem(context: any) {
   const [description, setDescription] = useState("");
   const [email, setEmail] = useState("");
 
+  // ① useAuthがログイン者のemailをreturnしてくれているので、それをloginUserEmail に格納する。
   const loginUserEmail = useAuth();
 
   useEffect(() => {
@@ -50,6 +51,7 @@ export default function DeleteItem(context: any) {
     }
   }
 
+  // ② if (loginUserEmail === email) を使い、trueならページをreturn
   if (loginUserEmail === email) {
     return (
       <div>

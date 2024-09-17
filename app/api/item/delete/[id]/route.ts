@@ -8,7 +8,10 @@ export async function DELETE(request: any, context: any) {
   try {
     await connectDB();
     const singleItem = await ItemModel.findById(context.params.id);
+
+    // ① DBのemailと、requestで来たemailを照合
     if (singleItem.email === reqBody.email) {
+      // ② 合致した場合だけ関数実行
       await ItemModel.deleteOne({ _id: context.params.id });
       return NextResponse.json({ message: "アイテム削除成功" });
     } else {

@@ -9,10 +9,11 @@ export async function POST(request: any) {
   try {
     await connectDB();
     const savedUserData = await UserModel.findOne({ email: reqBody.email });
+    // ① その人がユーザー登録を済ませているかどうかをチェック
     if (savedUserData) {
-      // ユーザーデータが存在する場合の処理
+      // ② 登録していたら、パスワードをチェック
       if (reqBody.password === savedUserData.password) {
-        // パスワードが正しい場合の処理
+        // ③ パスワード一致したら、トークンを発行し、フロントに送る
         const secretKey = new TextEncoder().encode("next-market-app-book");
         const payload = {
           email: reqBody.email,
@@ -20,11 +21,9 @@ export async function POST(request: any) {
         const token = await new SignJWT(payload).setProtectedHeader({ alg: "HS256" }).setExpirationTime("1d").sign(secretKey)
         return NextResponse.json({ message: "ログイン成功", token: token });
       } else {
-        // パスワードが間違っている場合の処理
         return NextResponse.json({ message: "ログイン失敗：パスワードが間違っています" });
       }
     } else {
-      // ユーザーデータが存在しない場合の処理
       return NextResponse.json({ message: "ログイン失敗：ユーザー登録をしてください" });
     }
   } catch (error) {

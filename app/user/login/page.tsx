@@ -10,6 +10,7 @@ export default function Login() {
     e.preventDefault();
 
     try {
+      // ① メルアドとパスワードをバックエンドに送る。
       const response = await fetch(`http://localhost:3001/api/user/login`, {
         method: "POST",
         headers: {
@@ -21,6 +22,7 @@ export default function Login() {
           password: password
         })
       })
+      // ② 成功したら、messageとtokenが、帰ってくる。tokenの方を、ブラウザのローカルストレージに入れる。
       const jsonData = await response.json();
       localStorage.setItem("token", jsonData.token)
       alert(jsonData.message);
